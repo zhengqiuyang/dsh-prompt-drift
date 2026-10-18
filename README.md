@@ -50,6 +50,12 @@ Prebuilt `lib/` ships in the repo — git installs need no build step and no
     ignoreSections: []
 ```
 
+## Compatibility
+
+- **DSH**: verified against the 0.2.x line (source snapshot 0.2.1-alpha.2); installs on any profile via `dsh plugin add` (prebuilt `lib/`, no build approval).
+- **Node**: >= 20 (CI matrix: Node 20/22/24 on Ubuntu and Windows).
+- **Disposable-profile evidence (2026-10-19)**: `dsh plugin --profile <fresh> add github:zhengqiuyang/dsh-prompt-drift` → installed in 30s; boot shows `[dsh-prompt-drift] active: …`; `dsh plugin --profile <fresh> remove dsh-prompt-drift` → dependencies cleared, bundles restored.
+
 ## Develop
 
 ```sh
