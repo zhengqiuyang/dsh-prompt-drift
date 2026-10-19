@@ -1,6 +1,7 @@
 # dsh-prompt-drift
 
 > **If this helps you, please give it a star** — it helps others find it. Thanks!
+
 System-prompt surface drift gate for
 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) (dsh).
 
