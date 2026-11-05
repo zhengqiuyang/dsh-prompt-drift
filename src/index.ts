@@ -45,6 +45,11 @@ export function apply(ctx: Context, config: Config) {
   let baselineSeen = false;
 
   async function check(assembly: AssemblyView): Promise<void> {
+    const names = assembly.sections.map((s) => s.name);
+    if (new Set(names).size !== names.length) {
+      console.warn(`[dsh-prompt-drift] duplicate section names in assembly (${names.join(', ')}) — baseline not updated`);
+      return;
+    }
     const current = snapshotFromSections(assembly.sections, new Date().toISOString());
     const loaded = await loadSnapshot(config.baselinePath);
     if (loaded.status === 'absent') {

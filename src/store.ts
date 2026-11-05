@@ -30,6 +30,10 @@ export async function loadSnapshot(path: string): Promise<SnapshotLoad> {
   }
   try {
     const parsed = JSON.parse(text) as PromptSurfaceSnapshot;
+    const names = (parsed.sections ?? []).map((s) => s.name);
+    if (new Set(names).size !== names.length) {
+      return { status: 'malformed', error: 'duplicate section names' };
+    }
     if (typeof parsed !== 'object' || parsed === null || !Array.isArray(parsed.sections)) {
       return { status: 'malformed', error: 'missing sections array' };
     }

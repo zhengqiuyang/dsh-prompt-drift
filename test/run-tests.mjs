@@ -112,5 +112,16 @@ await test('save/load roundtrips, missing loads null', async () => {
 }
 
 console.log('');
+// T12:重复 section 名在快照层被拒(不被 Map 静默合并)
+{
+  const p = join(tmpdir(), 'pd-t12-' + Date.now() + '.json');
+  writeFileSync(p, JSON.stringify({ time: 't', sections: [{ name: 'a', textSha256: 'aa' }, { name: 'a', textSha256: 'bb' }] }));
+  const loaded = await loadSnapshot(p);
+  assert.equal(loaded.status, 'malformed');
+  assert.ok(loaded.error.includes('duplicate'));
+  rmSync(p, { force: true });
+  console.log('  ok  T12 duplicate section names rejected at load');
+}
+
 console.log(`${passed} passed, ${failed} failed`);
 process.exit(failed === 0 ? 0 : 1);
