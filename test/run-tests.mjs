@@ -2,7 +2,7 @@
  * Unit tests for the pure surface diff/store — no DSH host needed.
  */
 import assert from 'node:assert/strict';
-import { mkdtempSync, rmSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { diffSurfaces, sha256Text, snapshotFromSections, summarizeDiff } from '../lib/surface.js';
@@ -90,12 +90,26 @@ await test('save/load roundtrips, missing loads null', async () => {
     const snap = snapshotFromSections(SECTIONS, 't0');
     await saveSnapshot(p, snap);
     const loaded = await loadSnapshot(p);
-    assert.deepEqual(loaded, snap);
-    assert.equal(await loadSnapshot(join(dir, 'nope.json')), null);
+    assert.deepEqual(loaded.value, snap);
+    assert.equal((await loadSnapshot(join(dir, 'nope.json'))).status, 'absent');
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }
 });
+
+
+
+// T10:损坏基线判定为 malformed(绝不静默重建)
+{
+  const dir2 = join(tmpdir(), 'pd-t10-' + Date.now());
+  mkdirSync(dir2, { recursive: true });
+  const p = join(dir2, 'baseline.json');
+  writeFileSync(p, '{broken');
+  const loaded = await loadSnapshot(p);
+  assert.equal(loaded.status, 'malformed');
+  rmSync(dir2, { recursive: true, force: true });
+  console.log('  ok  T10 malformed baseline detected');
+}
 
 console.log('');
 console.log(`${passed} passed, ${failed} failed`);

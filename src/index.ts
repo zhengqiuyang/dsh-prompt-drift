@@ -46,8 +46,8 @@ export function apply(ctx: Context, config: Config) {
 
   async function check(assembly: AssemblyView): Promise<void> {
     const current = snapshotFromSections(assembly.sections, new Date().toISOString());
-    const baseline = await loadSnapshot(config.baselinePath);
-    if (baseline === null) {
+    const loaded = await loadSnapshot(config.baselinePath);
+    if (loaded.status === 'absent') {
       await saveSnapshot(config.baselinePath, current);
       console.log(
         `[dsh-prompt-drift] baseline established: ${current.sections.length} section(s) -> ${config.baselinePath} (commit it)`,
@@ -55,8 +55,17 @@ export function apply(ctx: Context, config: Config) {
       baselineSeen = true;
       return;
     }
+    if (loaded.status !== 'ok') {
+      // T10: a damaged/unreadable baseline is never silently re-baselined.
+      console.warn(
+        `[dsh-prompt-drift] baseline at ${config.baselinePath} is ${loaded.status} (${loaded.error}). ` +
+          `Refusing to overwrite — delete it deliberately to re-baseline.`,
+      );
+      baselineSeen = true;
+      return;
+    }
     baselineSeen = true;
-    const diff = diffSurfaces(baseline, current, ignore);
+    const diff = diffSurfaces(loaded.value, current, ignore);
     if (diff.changes.length === 0) return;
     const signature = JSON.stringify(diff.changes);
     if (signature === lastSignature) return;
