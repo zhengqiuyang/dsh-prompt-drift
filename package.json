@@ -31,12 +31,12 @@
   ],
   "peerDependencies": {
     "@deepseek-ai/cordis": "^4.0.0",
-    "@deepseek-ai/dsh-system-prompt": ">=0.0.1-rc.1",
+    "@deepseek-ai/dsh-system-prompt": ">=0.0.1-rc.1 || ^0.1.2-rc.1",
     "@deepseek-ai/schemastery": "^3.18.0"
   },
   "devDependencies": {
     "@deepseek-ai/cordis": "^4.0.0",
-    "@deepseek-ai/dsh-system-prompt": "^0.0.1-rc.1",
+    "@deepseek-ai/dsh-system-prompt": ">=0.0.1-rc.1 || ^0.1.2-rc.1",
     "@deepseek-ai/schemastery": "^3.18.0",
     "@types/node": "^22.10.2",
     "typescript": "^5.7.3"
