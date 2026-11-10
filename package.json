@@ -50,6 +50,9 @@
   "engines": {
     "node": ">=20"
   },
+  "homepage": "https://github.com/zhengqiuyang/dsh-prompt-drift#readme",
+  "bugs": { "url": "https://github.com/zhengqiuyang/dsh-prompt-drift/issues" },
+  "author": "zhengqiuyang",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/zhengqiuyang/dsh-prompt-drift.git"

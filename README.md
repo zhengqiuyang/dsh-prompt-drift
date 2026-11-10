@@ -1,5 +1,11 @@
 # dsh-prompt-drift
 
+[![CI](https://github.com/zhengqiuyang/dsh-prompt-drift/actions/workflows/ci.yml/badge.svg)](https://github.com/zhengqiuyang/dsh-prompt-drift/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/dsh-prompt-drift)](https://www.npmjs.com/package/dsh-prompt-drift)
+[![license](https://img.shields.io/npm/l/dsh-prompt-drift)](https://github.com/zhengqiuyang/dsh-prompt-drift/blob/main/LICENSE)
+
+> Part of the [DSH trust layer](https://github.com/zhengqiuyang/dsh-trust-panel/blob/main/SUITE.md) — ten deterministic checks, no LLM in the trust path.
+
 > **If this helps you, please give it a star** — it helps others find it. Thanks!
 
 System-prompt surface drift gate for
